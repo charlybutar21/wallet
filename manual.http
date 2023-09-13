@@ -1,0 +1,84 @@
+### Register User 1
+POST http://localhost:8080/api/accounts
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "username",
+  "password": "secret",
+  "accountHolderName": "Test User"
+}
+
+### Register User 2
+POST http://localhost:8080/api/accounts
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "root2",
+  "password": "secret",
+  "accountHolderName": "PT Main"
+}
+
+### Login using User 1
+POST http://localhost:8080/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "username",
+  "password": "secret"
+}
+
+### Get Account Detail User 1
+< {%
+    request.variables.set("TOKEN", "085f3c90-6596-47f6-95b9-b0fc99db5a17")  //replace with token from response login user 1
+    request.variables.set("USER2_ACCOUNT_NUMBER", "085f3c90-6596-47f6-95b9-b0fc99db5a17")  //replace with token from response login user 1
+%}
+GET http://localhost:8080/api/accounts/current
+Accept: application/json
+X-API-TOKEN: {{TOKEN}}
+
+
+### Post Transaction TopUp (Success)
+POST http://localhost:8080/api/transactions/top-up
+Accept: application/json
+Content-Type: application/json
+X-API-TOKEN: {{TOKEN}}
+
+{
+  "amount": 100000,
+  "referenceNumber": "REF-001",
+  "description": "top up dari transfer Bank"
+}
+
+### Post Transaction Transfer (Success)
+POST http://localhost:8080/api/transactions/transfer
+Accept: application/json
+Content-Type: application/json
+X-API-TOKEN: {{TOKEN}}
+
+{
+  "destinationAccountNumber": {{USER2_ACCOUNT_NUMBER}},
+  "amount": 10000,
+  "referenceNumber": "REF-002",
+  "description": "transfer"
+}
+
+### Post Transaction Refund (Success)
+POST http://localhost:8080/api/transactions/refund
+Accept: application/json
+Content-Type: application/json
+X-API-TOKEN: {{TOKEN}}
+
+{
+  "sourceAccountNumber": {{USER2_ACCOUNT_NUMBER}},
+  "amount": 10000,
+  "referenceNumber": "REF-003",
+  "description": "refund"
+}
+
+### Get Customer Transactions
+GET http://localhost:8080/api/accounts/current/transactions?pageSize=10&currentPage=0
+Accept: application/json
+X-API-TOKEN: {{TOKEN}}
