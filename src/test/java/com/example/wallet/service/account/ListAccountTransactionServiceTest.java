@@ -1,4 +1,4 @@
-package com.example.wallet.service.transaction;
+package com.example.wallet.service.account;
 
 import com.example.wallet.dto.request.ListTransactionRequest;
 import com.example.wallet.dto.response.TransactionResponse;
@@ -6,6 +6,8 @@ import com.example.wallet.entity.Account;
 import com.example.wallet.entity.Transaction;
 import com.example.wallet.entity.TransactionType;
 import com.example.wallet.repository.TransactionRepository;
+import com.example.wallet.service.account.ListAccountTransactionService;
+import com.example.wallet.service.account.ListAccountTransactionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -22,19 +24,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-class ListTransactionServiceTest {
+class ListAccountTransactionServiceTest {
 
     @Mock
     private TransactionRepository transactionRepository;
 
-    private ListTransactionService service;
+    private ListAccountTransactionService service;
 
     private ListTransactionRequest request;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        service = new ListTransactionServiceImpl(transactionRepository);
+        service = new ListAccountTransactionServiceImpl(transactionRepository);
         request= new ListTransactionRequest();
         request.setPageSize(10);
         request.setCurrentPage(0);

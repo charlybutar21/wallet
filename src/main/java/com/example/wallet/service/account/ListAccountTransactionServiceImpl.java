@@ -1,9 +1,10 @@
-package com.example.wallet.service.transaction;
+package com.example.wallet.service.account;
 
 import com.example.wallet.dto.request.ListTransactionRequest;
 import com.example.wallet.dto.response.TransactionResponse;
 import com.example.wallet.entity.Transaction;
 import com.example.wallet.repository.TransactionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -14,13 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class ListTransactionServiceImpl implements ListTransactionService{
+@AllArgsConstructor
+public class ListAccountTransactionServiceImpl implements ListAccountTransactionService {
 
-    private final TransactionRepository transactionRepository;
-
-    public ListTransactionServiceImpl(TransactionRepository transactionRepository) {
-        this.transactionRepository = transactionRepository;
-    }
+    private TransactionRepository transactionRepository;
 
     @Override
     @Transactional(readOnly = true)

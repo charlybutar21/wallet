@@ -15,12 +15,12 @@ Technology / Library / Framework used:
 * Lombok
 
 ## Entity Relationship Diagram
-![wallet-erd.png](..%2F..%2F..%2FPictures%2Fwallet-erd.png)
+![](src/main/resources/static/wallet-erd.png "ERD Wallet Application")
 
 ## Use Cases / API Specification
 
 ### Register Account
-- Endpoint : POST {host}/api/accounts
+- Endpoint : POST {{host}}/api/accounts
 - Description: This endpoint is used to create a new customer account. 
 - Request Body :
 ```json
@@ -47,8 +47,38 @@ Technology / Library / Framework used:
 }
 ```
 
+### Search Account
+- Endpoint : Get {{host}}/api/accounts/search?keyword=xxx&accountNumber
+- Description: This endpoint is used for user to search accounts by keyword account holder name or account number.
+- Header :
+  * X-API-TOKEN : {{TOKEN}}
+- Query Param:
+  * keyword: string optional  (keyword account holder name)
+  * accountNumber: long  optional
+  * currentPage: int optional (default 0)
+  * pageSize: int optional  (default 10)
+- Response Body (Success):
+```json
+{
+  "data": [
+    {
+      "accountNumber": 6570613016,
+      "accountHolderName": "Main",
+      "balance": 0.00
+    }
+  ],
+  "errors": null,
+  "paging": {
+    "currentPage": 0,
+    "pageSize": 10,
+    "totalPage": 1
+  }
+}
+```
+
+
 ### Login Account
-- Endpoint : POST {host}/api/auth/login
+- Endpoint : POST {{host}}/api/auth/login
 - Description: This endpoint is used for user authentication and get token. The token can then be used for accessing protected resources and making authenticated requests to the application.
 - Request Body :
 ```json
@@ -67,10 +97,10 @@ Technology / Library / Framework used:
 ```
 
 ### Get Current Account Detail
-- Endpoint : Get {host}/api/accounts/current
+- Endpoint : Get {{host}}/api/accounts/current
 - Description: This endpoint is used for user to view their current balance information.
 - Header :
-    * X-API-TOKEN : {TOKEN}
+    * X-API-TOKEN : {{TOKEN}}
 - Response Body (Success):
 ```json
 {
@@ -85,10 +115,10 @@ Technology / Library / Framework used:
 ```
 
 ### Post Transaction TopUp
-- Endpoint : Post /api/transactions/top-up
+- Endpoint : Post {{host}}/api/transactions/top-up
 - Description: This endpoint is used for user to top up the balance.
 - Header :
-    * X-API-TOKEN : {TOKEN}
+    * X-API-TOKEN : {{TOKEN}}
 - Request Body :
 ```json
 {
@@ -108,10 +138,10 @@ Technology / Library / Framework used:
 ```
 
 ### Post Transaction Transfer
-- Endpoint : Post /api/transactions/top-up
+- Endpoint : Post  {{host}}/api/transactions/top-up
 - Description: This endpoint is used for user to transfer money to other account.
 - Header :
-    * X-API-TOKEN : {TOKEN}
+    * X-API-TOKEN : {{TOKEN}}
 - Request Body :
 ```json
 {
@@ -131,10 +161,10 @@ Technology / Library / Framework used:
 ```
 
 ### Post Transaction Refund
-- Endpoint : Post /api/transactions/top-up
+- Endpoint : Post {{host}}/api/transactions/top-up
 - Description: This endpoint is used for user to refund money.
 - Header :
-    * X-API-TOKEN : {TOKEN}
+    * X-API-TOKEN : {{TOKEN}}
 - Request Body :
 ```json
 {
@@ -154,10 +184,10 @@ Technology / Library / Framework used:
 ```
 
 ### Get Account Transactions History
-- Endpoint : Get /api/customers/current/transactions
+- Endpoint : Get {{host}}/api/customers/current/transactions
 - Description: This endpoint is used for user to view all transaction histories in his account.
 - Header :
-    * X-API-TOKEN : {TOKEN}
+    * X-API-TOKEN : {{TOKEN}}
 - Query Param:
     * startTimeEpoch: long optional  (unix epoch time in millisecond)
     * endTimeEpoch: long  optional (unix epoch time in millisecond)
@@ -215,6 +245,8 @@ mvn clean install
 java -jar target/wallet-0.0.1-SNAPSHOT.jar
 ```
 
-**4. Access H2 Database GUI with open http://localhost:8080/h2-console**
+**4. Access H2 Database GUI with open http://localhost:8080/h2-console/login.jsp**
 
-**5. Open file manual.http and run test cases**
+**5. Open file manual.http and run test requests**
+* After run test request **Search User 2**, replace env value USER2_ACCOUNT_NUMBER on file http-client.env.json with value accountNumber from response API search user.
+* After run test request **Login User 1**, replace env value TOKEN on file http-client.env.json with value data token from response API login user.

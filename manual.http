@@ -15,12 +15,18 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "root2",
+  "username": "root",
   "password": "secret",
-  "accountHolderName": "PT Main"
+  "accountHolderName": "Main"
 }
 
-### Login using User 1
+### Search User 2
+GET http://localhost:8080/api/accounts/search?keyword=Main
+Accept: application/json
+X-API-TOKEN: {{TOKEN}}
+
+
+### Login User 1
 POST http://localhost:8080/api/auth/login
 Accept: application/json
 Content-Type: application/json
@@ -31,10 +37,6 @@ Content-Type: application/json
 }
 
 ### Get Account Detail User 1
-< {%
-    request.variables.set("TOKEN", "085f3c90-6596-47f6-95b9-b0fc99db5a17")  //replace with token from response login user 1
-    request.variables.set("USER2_ACCOUNT_NUMBER", "085f3c90-6596-47f6-95b9-b0fc99db5a17")  //replace with token from response login user 1
-%}
 GET http://localhost:8080/api/accounts/current
 Accept: application/json
 X-API-TOKEN: {{TOKEN}}
@@ -78,7 +80,7 @@ X-API-TOKEN: {{TOKEN}}
   "description": "refund"
 }
 
-### Get Customer Transactions
+### Get Customer Transactions History
 GET http://localhost:8080/api/accounts/current/transactions?pageSize=10&currentPage=0
 Accept: application/json
 X-API-TOKEN: {{TOKEN}}

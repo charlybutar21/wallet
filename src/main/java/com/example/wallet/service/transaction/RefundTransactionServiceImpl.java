@@ -10,6 +10,7 @@ import com.example.wallet.service.validator.ValidatorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class RefundTransactionServiceImpl implements RefundTransactionService {
     private AccountRepository accountRepository;
 
     @Override
+    @Transactional
     public Long execute(RefundRequest request) throws Exception {
 
         validationService.validateRequest(request);
